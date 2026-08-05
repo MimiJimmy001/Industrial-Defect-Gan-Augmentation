@@ -125,7 +125,3 @@ python tests/test_basic.py
   融合模块静态化），**旧 checkpoint 与新代码不完全兼容**，加载时缺失/多余权重键会有警告提示，
   正式实验请重新训练。
 - 异常检测评估（Pixel-AUC / PRO-AUC）需要数据集包含 ground_truth mask。
-
-## License
-
-MIT
