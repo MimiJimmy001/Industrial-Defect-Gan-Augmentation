@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基于GAN的工业异常检测图像增广系统</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-robot"></i> 基于生成对抗网络的工业异常检测图像样本增广系统</h1>
+            <p class="subtitle">Focus-StyleGAN模型输入输出展示</p>
+        </header>
+
+        <section class="intro">
+            <h2><i class="fas fa-info-circle"></i> 项目概述</h2>
+            <p>本系统基于Focus-StyleGAN架构，针对工业异常检测任务中的样本不平衡问题，提出了一种新颖的图像增广方法。系统能够生成高质量的伪异常图像，有效扩充训练数据集，提升异常检测模型的性能。</p>
+            <div class="features">
+                <div class="feature">
+                    <i class="fas fa-code-branch"></i>
+                    <h3>双分支生成器</h3>
+                    <p>缺陷聚焦分支和背景保持分支协同工作</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-layer-group"></i>
+                    <h3>多尺度判别器</h3>
+                    <p>集成注意力机制的PatchGAN结构</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-sliders-h"></i>
+                    <h3>自适应风格控制</h3>
+                    <p>AdaIN和CBAM模块精细化控制生成风格</p>
+                </div>
+                <div class="feature">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>超参数自动优化</h3>
+                    <p>基于Optuna的智能超参数搜索</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="architecture">
+            <h2><i class="fas fa-project-diagram"></i> 模型架构</h2>
+            <p>Focus-StyleGAN是基于StyleGAN的改进架构，包含以下关键组件：</p>
+            <ul>
+                <li><strong>缺陷聚焦分支</strong>: 生成缺陷区域特征</li>
+                <li><strong>背景保持分支</strong>: 保持正常图像背景</li>
+                <li><strong>风格映射网络</strong>: 控制生成图像的风格</li>
+                <li><strong>融合模块</strong>: 自适应融合两分支输出</li>
+                <li><strong>多尺度判别器</strong>: 集成注意力机制的PatchGAN</li>
+            </ul>
+            <div class="architecture-img">
+                <img src="focus_stylegan_architecture.png" alt="Focus-StyleGAN架构图">
+                <p class="img-caption">Focus-StyleGAN模型架构图</p>
+            </div>
+        </section>
+
+        <section class="demo">
+            <h2><i class="fas fa-images"></i> 模型输入输出展示</h2>
+
+
+            <div class="category-selector" style="margin: 12px 0 20px 0; padding: 12px 16px; background: #f0f4f8; border-radius: 8px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                <label for="categorySelect" style="font-weight:600; white-space:nowrap;">
+                    <i class="fas fa-tag"></i> 产品类别：
+                </label>
+                <select id="categorySelect" style="padding: 6px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 14px; min-width: 150px;">
+                    <option value="">-- 自动（特征驱动） --</option>
+                </select>
+                <span id="categoryInfo" style="font-size: 12px; color: #666;"></span>
+            </div>
+
+            <div class="demo-container">
+                <div class="input-section">
+                    <h3><i class="fas fa-upload"></i> 输入图像</h3>
+                    <div class="upload-area" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>点击或拖拽上传图像</p>
+                        <p class="upload-hint">支持JPG、PNG格式，最大5MB</p>
+                        <input type="file" id="fileInput" accept=".jpg,.jpeg,.png">
+                    </div>
+                    <div class="image-preview" id="imagePreview">
+                        <p>预览区域</p>
+                    </div>
+                </div>
+
+                <div class="process-section">
+                    <h3><i class="fas fa-cogs"></i> 处理过程</h3>
+                    <div class="process-steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h4>图像预处理</h4>
+                            <p>调整大小、归一化</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h4>特征提取</h4>
+                            <p>提取正常图像特征</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h4>缺陷生成</h4>
+                            <p>生成伪异常区域</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <h4>图像融合</h4>
+                            <p>融合缺陷与背景</p>
+                        </div>
+                    </div>
+                    <button id="processBtn" class="process-btn">
+                        <i class="fas fa-play"></i> 开始生成
+                    </button>
+                    <div class="loading" id="loading">
+                        <div class="spinner"></div>
+                        <p>模型正在生成图像，请稍候...</p>
+                    </div>
+                </div>
+
+                <div class="output-section">
+                    <h3><i class="fas fa-download"></i> 生成结果</h3>
+                    <div class="output-placeholder" id="outputPlaceholder">
+                        <i class="fas fa-image"></i>
+                        <p>生成结果将显示在这里</p>
+                    </div>
+                    <div class="output-image" id="outputImage">
+                        <!-- 生成图像将在这里显示 -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- 增广图像展示区 -->
+            <div class="augmented-results-section" id="augmentedResultsSection" style="display: none;">
+                <h3><i class="fas fa-layer-group"></i> 增广图像结果</h3>
+                <div class="augmented-grid" id="augmentedGrid">
+                    <!-- 增广图像将在这里动态生成 -->
+                </div>
+                <div id="bestSummary" class="best-summary" style="display: none;"></div>
+            </div>
+        </section>
+
+        <!-- 全屏查看模态框 -->
+        <div class="fullscreen-modal" id="fullscreenModal">
+            <div class="fullscreen-backdrop" id="fullscreenBackdrop"></div>
+            <div class="fullscreen-content">
+                <button class="fullscreen-close" id="fullscreenClose"><i class="fas fa-times"></i></button>
+                <img id="fullscreenImage" src="" alt="全屏查看">
+            </div>
+        </div>
+
+        <section class="aug-evaluation" id="augEvaluationSection">
+            <h2><i class="fas fa-microscope"></i> 增广图像评估</h2>
+            <p>系统从缺陷置信度、缺陷位置与类型、生成质量以及FID、IS、LPIPS、PSNR等多个维度对增广结果进行综合评估，确保生成的伪异常图像在真实性和多样性之间取得平衡。</p>
+            <div class="aug-eval-placeholder" id="augEvalPlaceholder">
+                请先上传并生成图像，评估结果会显示在这里。
+            </div>
+            <div class="aug-eval-grid" id="augEvalGrid" style="display: none;"></div>
+        </section>
+
+        <section class="examples">
+            <h2><i class="fas fa-chart-bar"></i> 评估指标说明</h2>
+            <p class="metric-section-note">以下为「增广图像评估」区域各项指标的详细说明，点击增广图像可切换查看对应评估结果：</p>
+            <div class="metric-cards">
+                <div class="metric-card">
+                    <div class="metric-card-icon"><i class="fas fa-tag"></i></div>
+                    <div class="metric-card-body">
+                        <h4>缺陷类型</h4>
+                        <p>基于 Hough 线检测、Blob 分析、轮廓复杂度对差异图进行多维度分类，输出划痕、斑点、纹理异常或不规则缺陷</p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-card-icon"><i class="fas fa-percent"></i></div>
+                    <div class="metric-card-body">
+                        <h4>异常显著度</h4>
+                        <p>综合差异图均值、95分位数、最大值计算的异常显著程度，反映缺陷区域与正常区域的视觉偏离程度</p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-card-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="metric-card-body">
+                        <h4>缺陷位置</h4>
+                        <p>根据高差异区域质心坐标判定缺陷所在方位，分为中心区域及左上、右上、左下、右下等方向</p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-card-icon"><i class="fas fa-star"></i></div>
+                    <div class="metric-card-body">
+                        <h4>生成质量</h4>
+                        <p>基于输入-输出像素差异的综合质量评级，综合考虑整体偏差与局部异常程度</p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-card-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="metric-card-body">
+                        <h4>FID (Fréchet Inception Distance)</h4>
+                        <p>衡量生成图像分布与真实分布的 Wasserstein 距离，数值越低表示生成图像越接近真实</p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-card-icon"><i class="fas fa-chart-pie"></i></div>
+                    <div class="metric-card-body">
+                        <h4>IS (Inception Score)</h4>
+                        <p>衡量生成图像的清晰度与类别多样性，数值越高表示图像质量越好、类别覆盖越广</p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-card-icon"><i class="fas fa-eye"></i></div>
+                    <div class="metric-card-body">
+                        <h4>LPIPS (感知相似度)</h4>
+                        <p>Learned Perceptual Image Patch Similarity，基于深度特征衡量图像对之间的感知差异，值越低越相似</p>
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-card-icon"><i class="fas fa-signal"></i></div>
+                    <div class="metric-card-body">
+                        <h4>PSNR (峰值信噪比)</h4>
+                        <p>Peak Signal-to-Noise Ratio，衡量图像重建质量与失真程度，单位为 dB，数值越高表示失真越小</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>基于生成对抗网络的工业异常检测图像样本增广系统 &copy; 2026</p>
+            <p>毕业设计项目 | 仅供学术研究使用</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+Flask>=2.3.0
+Pillow>=10.0.0
+numpy>=1.24.0
+# 完整依赖（含 CPU 版 PyTorch、opencv、训练/评估栈）见项目根目录 requirements.txt：
+#   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+#   pip install -r requirements.txt
