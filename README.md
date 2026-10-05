@@ -7,7 +7,47 @@
 
 面向 MVTec AD 工业质检场景的双分支缺陷图像增广系统。项目将“缺陷区域生成”和“背景结构保持”解耦，通过 AdaIN、CBAM 和注意力门控融合生成伪异常样本，并提供 GAN、真实缺陷迁移、检索式和缺陷堆叠四类增广管线。
 
-![Focus-StyleGAN 架构](web/focus_stylegan_architecture.png)
+```mermaid
+flowchart LR
+    subgraph INPUT[输入]
+        X[正常图像 x]
+        ZD[z_defect]
+        ZB[z_background]
+    end
+
+    subgraph GENERATOR[生成器]
+        BG[背景保持分支<br/>Encoder + AdaIN + CBAM]
+        DF[缺陷聚焦分支<br/>Style MLP + Generator Blocks]
+        FU[注意力门控融合<br/>空间对齐 + Sigmoid Gate]
+    end
+
+    subgraph DISCRIMINATOR[判别器]
+        D[多尺度判别器<br/>Multi-scale + CBAM]
+    end
+
+    subgraph LOSS[训练目标]
+        WGAN[WGAN-GP<br/>梯度惩罚]
+        REC[L1 重建损失]
+        PERC[VGG19 感知损失]
+        LPIPS[LPIPS 感知距离]
+    end
+
+    X --> BG
+    ZB --> BG
+    ZD --> DF
+    BG --> FU
+    DF --> FU
+    FU --> FAKE[伪异常图像]
+    FAKE --> D
+    X --> D
+    D --> WGAN
+    X -.参考图.-> REC
+    FU -.生成图.-> REC
+    X -.特征目标.-> PERC
+    FU -.特征输入.-> PERC
+    X -.感知目标.-> LPIPS
+    FU -.感知输入.-> LPIPS
+```
 
 <details>
 <summary><strong>English Overview</strong></summary>

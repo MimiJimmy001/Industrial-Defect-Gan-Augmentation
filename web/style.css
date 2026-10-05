@@ -127,24 +127,127 @@ section h2 i {
     font-weight: bold;
 }
 
-.architecture-img {
-    margin-top: 20px;
+.architecture-diagram {
+    margin-top: 24px;
+    padding: 24px;
+    border: 1px solid #dbe7f3;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #f8fbff 0%, #eef5fb 100%);
+}
+
+.arch-stage {
+    padding: 14px;
+    border: 1px dashed #c9d9e8;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.72);
+}
+
+.arch-stage-label {
+    margin-bottom: 10px;
+    color: #5b6f82;
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.arch-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.arch-row-branches > .arch-node {
+    flex: 1 1 220px;
+}
+
+.arch-node {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 16px;
+    color: #263b50;
+    text-align: center;
+    border: 1px solid #d7e3ee;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 4px 10px rgba(48, 75, 99, 0.06);
+}
+
+.arch-node span,
+.arch-node small {
+    color: #6b7f91;
+    font-size: 0.78rem;
+}
+
+.arch-node-latent {
+    border-color: #d8c9ee;
+    background: #f3edff;
+}
+
+.arch-node-background {
+    border-color: #f0d89a;
+    background: #fff8e6;
+}
+
+.arch-node-defect {
+    border-color: #efb7ae;
+    background: #fff0ed;
+}
+
+.arch-node-fusion {
+    margin: 0 auto;
+    max-width: 560px;
+    border-color: #c6b8e8;
+    background: #f2ecff;
+}
+
+.arch-node-output {
+    margin: 0 auto;
+    max-width: 420px;
+    border-color: #b9dfc1;
+    background: #ecf9ef;
+    font-weight: 700;
+}
+
+.arch-arrow {
+    padding: 6px 0;
+    color: #3f6f98;
+    font-size: 1.5rem;
+    line-height: 1;
     text-align: center;
 }
 
-.architecture-img img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+.arch-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin-top: 18px;
 }
 
-.img-caption {
+.arch-detail-card {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 12px;
+    color: #334b61;
+    border-left: 4px solid #5dade2;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.86);
+}
+
+.arch-detail-card span {
+    color: #718496;
+    font-size: 0.8rem;
+}
+
+.architecture-caption {
     margin-top: 8px;
     color: #7f8c8d;
     font-style: italic;
+    text-align: center;
 }
-
 /* 演示区域 */
 .demo-container {
     display: grid;

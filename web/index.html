@@ -52,10 +52,52 @@
                 <li><strong>融合模块</strong>: 自适应融合两分支输出</li>
                 <li><strong>多尺度判别器</strong>: 集成注意力机制的PatchGAN</li>
             </ul>
-            <div class="architecture-img">
-                <img src="focus_stylegan_architecture.png" alt="Focus-StyleGAN架构图">
-                <p class="img-caption">Focus-StyleGAN模型架构图</p>
+            <div class="architecture-diagram" role="group" aria-label="Focus-StyleGAN 由缺陷聚焦分支、背景保持分支、注意力门控融合和多尺度判别器组成">
+                <div class="arch-stage">
+                    <div class="arch-stage-label">输入层</div>
+                    <div class="arch-row">
+                        <div class="arch-node arch-node-input">正常图像 <small>x</small></div>
+                        <div class="arch-node arch-node-latent">z_background</div>
+                        <div class="arch-node arch-node-latent">z_defect</div>
+                    </div>
+                </div>
+                <div class="arch-arrow" aria-hidden="true">↓</div>
+                <div class="arch-stage">
+                    <div class="arch-stage-label">双分支生成器</div>
+                    <div class="arch-row arch-row-branches">
+                        <div class="arch-node arch-node-background">
+                            <strong>背景保持分支</strong>
+                            <span>Encoder · AdaIN · CBAM</span>
+                        </div>
+                        <div class="arch-node arch-node-defect">
+                            <strong>缺陷聚焦分支</strong>
+                            <span>Style MLP · Generator Blocks</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="arch-arrow" aria-hidden="true">↓</div>
+                <div class="arch-node arch-node-fusion">
+                    <strong>注意力门控融合</strong>
+                    <span>空间对齐 → Sigmoid Gate → 融合卷积</span>
+                </div>
+                <div class="arch-arrow" aria-hidden="true">↓</div>
+                <div class="arch-node arch-node-output">伪异常图像 / 增广数据</div>
+                <div class="arch-detail-grid">
+                    <div class="arch-detail-card">
+                        <strong>多尺度判别器</strong>
+                        <span>Multi-scale · CBAM · Patch 判别</span>
+                    </div>
+                    <div class="arch-detail-card">
+                        <strong>训练目标</strong>
+                        <span>WGAN-GP · L1 重建 · VGG19 感知 · LPIPS</span>
+                    </div>
+                    <div class="arch-detail-card">
+                        <strong>评估链路</strong>
+                        <span>FID · PPS · Pixel / Region / PRO-AUC</span>
+                    </div>
+                </div>
             </div>
+            <p class="architecture-caption">使用原生 HTML/CSS 节点描述模型结构，不再依赖位图架构图。</p>
         </section>
 
         <section class="demo">
