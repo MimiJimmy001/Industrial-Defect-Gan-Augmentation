@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+
+# Runtime data and checkpoints
+datasets/
+checkpoints/
+weights/
+runs/
+outputs/
+test_data/
+*.pth
+*.pt
+*.ckpt
+*.onnx
+*.log
+
+# Editors and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

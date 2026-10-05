@@ -1,5 +1,8 @@
 # 基于 Focus-StyleGAN 的工业缺陷图像增广系统
 
+[![Syntax CI](https://github.com/MimiJimmy001/Industrial-Defect-Gan-Augmentation/actions/workflows/ci.yml/badge.svg)](https://github.com/MimiJimmy001/Industrial-Defect-Gan-Augmentation/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 毕业设计项目：面向 MVTec AD 工业质检场景的双分支 GAN 缺陷图像增广系统。
 
 ## 功能概览

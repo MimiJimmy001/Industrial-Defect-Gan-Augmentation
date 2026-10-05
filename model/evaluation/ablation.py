@@ -23,6 +23,8 @@ import torch.nn.functional as F
 import numpy as np
 from tqdm import tqdm
 
+from model.utils.config import Config
+
 
 @dataclass
 class AblationConfig:
