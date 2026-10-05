@@ -80,6 +80,8 @@ Focus-StyleGAN is a dual-branch industrial defect augmentation system for MVTec 
 
 ## 项目内容导航
 
+- [可视化与可解释性](docs/VISUAL_GUIDE.md)：4 个以上 Mermaid 思维导图、流程图和指标解释
+
 | 文档 | 内容 |
 |---|---|
 | [项目案例研究](docs/CASE_STUDY.md) | 业务问题、数据流、四类增广、工程取舍、失败模式和后续路线 |
